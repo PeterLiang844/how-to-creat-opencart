@@ -1,0 +1,98 @@
+ubuntu 18.04 裝 opencart3.0 教學過程(PART 1 前置作業)
+
+首先要先安裝php，以下為php7安裝範例
+
+1.更新套件列表：請確保在安裝新套件之前先更新套件列表。這將確保您安裝的是最新可用的套件信息。
+
+sudo apt update
+
+2.安裝 PHP 7.2：使用 apt 命令安裝 PHP 7.2 和相關的套件。
+
+sudo apt install php7.2
+
+3.安裝額外的 PHP 擴展（可選）：如果您需要特定的 PHP 擴展，可以安裝它們。例如，如果需要 MySQL 支援，可以安裝 php7.2-mysql 套件：
+
+sudo apt install php7.2-mysql
+sudo apt install php8.1-mysql
+4.驗證 PHP 安裝：安裝完成後，您可以運行以下命令來檢查 PHP 是否成功安裝：
+
+php -v
+
+再來裝apache2
+
+1.更新套件列表：在安裝新套件之前，建議先更新套件列表，確保獲取最新的套件信息。
+
+sudo apt update
+
+2.安裝 Apache2：使用 apt 命令安裝 Apache2。
+
+sudo apt install apache2
+
+2.啟動 Apache2 服務：安裝完成後，Apache2 服務會自動啟動，如果沒有，您可以手動啟動它。
+
+sudo systemctl start apache2
+
+3.設定 Apache2 開機自動啟動：如果您希望 Apache2 在系統開機時自動啟動，請執行以下命令：
+
+4.驗證 Apache2 安裝：
+
+local host : http://127.0.0.1/
+
+再來安裝mariadb(SQL)
+
+1.更新套件列表：在安裝新套件之前，建議先更新套件列表，以確保獲取最新的套件信息。
+
+sudo apt update
+
+2.安裝 MariaDB：
+使用 apt 命令安裝 MariaDB 服務。
+
+sudo apt install mariadb-server
+
+
+3.運行安全性設定腳本：
+MariaDB 在安裝後提供了一個安全性設定腳本，讓您可以進行一些基本的安全性設定。運行以下命令：
+
+sudo mysql_secure_installation
+
+此腳本將引導您設定 root 密碼，刪除匿名使用者，禁止 root 遠程登錄等
+
+4.驗證 MariaDB 安裝：
+安裝完成後，MariaDB 服務將自動啟動。您可以運行以下命令來檢查 MariaDB 是否正常運行：
+
+sudo systemctl status mariadb
+
+接下來設定opencart的 SQL
+
+創建一個資料庫
+登入 MariaDB 並創建一個新的資料庫和用戶，用於 Opencart 的安裝：
+
+1.登入 MariaDB
+
+sudo mysql -u root -p
+
+2.創建一個新的OPENCART資料庫
+
+CREATE DATABASE opencartdb;
+
+3.創建一個新的OPENCART用戶
+
+CREATE USER 'opencart'@'localhost' IDENTIFIED BY '123456d';
+
+4.把OPENCART用戶與資料庫去做連接(賦予使用者opencartdb資料庫使用權)
+
+GRANT ALL PRIVILEGES ON opencartdb.* TO 'opencart'@'localhost';
+
+5.確認使用者與資料庫沒有錯誤
+
+●查看使用者
+SELECT User,Host FROM mysql.user;
+
+●查看資料庫
+SHOW DATABASES;
+
+6.更新使用權
+
+FLUSH PRIVILEGES;
+
+
